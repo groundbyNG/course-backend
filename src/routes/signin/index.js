@@ -9,9 +9,9 @@ signin.post("/", jsonParser, function (req, res) {
         
     if(!req.body) return res.sendStatus(400);
         
-    const { passportId, password } = req.body;
+    const { email, password } = req.body;
 
-    User.authenticate(passportId, password, (err, user) => generateToken(err, user, res));
+    User.authenticate(email, password, (err, user) => generateToken(err, user, res));
 });
  
 export default signin;

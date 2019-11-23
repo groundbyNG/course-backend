@@ -13,7 +13,7 @@ export const generateToken = (error, user, res) => {
         err: 'Username or password is incorrect'
     });
     } else {
-      const token = jwt.sign({ passportId: user.passportId }, 'keyboard cat 4 ever', { expiresIn: 129600 }); // Sigining the token
+      const token = jwt.sign({ email: user.email, role: user.role }, 'keyboard cat 4 ever', { expiresIn: 129600 }); // Sigining the token
         
       return res.send({
         suсcess: true,
@@ -21,7 +21,7 @@ export const generateToken = (error, user, res) => {
         token,
       });
     }
-}
+};
 
 
 

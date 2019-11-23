@@ -4,34 +4,33 @@ import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    passportId: {
-        type: String,
-        unique: true,
-        required: true,
-        trim: true
+    email: {
+      type: String,
+      unique: true,
+      required: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     name: {
         type: String,
-        required: true
+        required: true,
     },
     surname: {
         type: String,
-        required: true
+        required: true,
     },
-    incomeSum: {
-        type: Number,
-        required: true
-    },
-})
+    role: {
+        type: String,
+        required: true,
+    }
+});
 
 
 //hashing a password before saving it to the database
 userSchema.pre('save', function (next) {
-    var user = this;
+    const user = this;
     bcrypt.hash(user.password, 10, function (err, hash){
       if (err) {
         return next(err);
@@ -41,14 +40,14 @@ userSchema.pre('save', function (next) {
     })
   });
 
-  userSchema.statics.authenticate = function (passportId, password, callback) {
-    mongoose.model('User', userSchema).findOne({ passportId })
+  userSchema.statics.authenticate = function (email, password, callback) {
+    mongoose.model('User', userSchema).findOne({ email })
       .exec(function (err, user) {
         
         if (err) {
           return callback(err)
         } else if (!user) {
-          var err = new Error('User not found.');
+          const err = new Error('User not found.');
           err.status = 401;
           return callback(err);
         }
@@ -60,7 +59,7 @@ userSchema.pre('save', function (next) {
           }
         })
       });
-  }
+  };
 
 
 export default mongoose.model('User', userSchema);

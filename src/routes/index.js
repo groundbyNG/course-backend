@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import transactionRouter from './transaction';
-import { taxRouter } from './tax';
+import mathRouter from './math';
 import signinRouter from './signin';
 import signupRouter from './signup';
+import mathStatRouter from "./math-statistic";
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use('/api/signup', signupRouter);
 app.use('/api/signin', signinRouter);
-app.use('/api/transaction', transactionRouter);
-app.use('/api/tax', taxRouter);
+app.use('/api/math', mathRouter);
+app.use('/api/math-stat', mathStatRouter);
 
 export default app;
