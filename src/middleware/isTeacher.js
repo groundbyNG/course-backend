@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+import {getCredentials} from "./auth";
 
 const isTeacher = (req, res, next) => {
-    const { role } = jwt.verify(req.headers.authorization.split(' ')[1], 'keyboard cat 4 ever');
+    const { role } = getCredentials(req.headers.authorization.split(' ')[1]);
 
     if (role !== 'teacher') {
         return res.status(400).json({

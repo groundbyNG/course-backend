@@ -11,10 +11,10 @@ signup.post("/", jsonParser, function (req, res) {
         
     const { email, password, name, surname } = req.body;
     const user = new User({ email, password, name, surname, role: 'student' });
-    
+
     user.save(function(err){
         if(err) return console.log(err);
-        
+
         User.authenticate(email, password, (err, user) => generateToken(err, user, res));
     });
 });

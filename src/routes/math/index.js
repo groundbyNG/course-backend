@@ -1,5 +1,5 @@
 import express from 'express';
-import Task from '../../models/math';
+import Math from '../../models/math';
 import isTeacher from '../../middleware/isTeacher';
 import shuffle from "../../helpers/shuffle";
 import { jwtMW } from "../../middleware/auth";
@@ -7,63 +7,54 @@ import { jwtMW } from "../../middleware/auth";
 const mathRouter = express.Router();
 const jsonParser = express.json();
 
-mathRouter.post("/add", jwtMW, jsonParser, isTeacher, function (req, res) {
+mathRouter.post("/", jwtMW, jsonParser, isTeacher, function (req, res) {
     if(!req.body) return res.sendStatus(400);
 
-    const { formula, answer } = req.body;
+    const { question, answer } = req.body;
 
-    const task = new Task({
-        formula,
-        answer,
-    });
+    const mathTask = new Math({ question, answer });
 
-    task.save(function(err){
-        if(err) return console.log(err);
-        res.send({
-            status: 200,
-        });
-    });
-});
-
-mathRouter.put("/edit", jwtMW, jsonParser, isTeacher, function (req, res) {
-    if(!req.body) return res.sendStatus(400);
-
-    const { formula, answer, id } = req.body;
-
-    Task.findOne({ _id: id }, (err, task) => {
-        if(err) return console.log(err);
-
-        task.formula = formula;
-        task.answer = answer;
-
-        task.save(function(err){
-            if(err) return console.log(err);
-            res.send({
-                status: 200,
-            });
-        });
-    });
-});
-
-mathRouter.delete("/delete", jwtMW, jsonParser, isTeacher, function (req, res) {
-    if(!req.body) return res.sendStatus(400);
-
-    const { id } = req.body;
-
-    Task.findOneAndDelete({ _id: id }, function(err, task){
-
-        if(err) return console.log(err);
-        res.send(task);
+    mathTask.save(function(err){
+        if(err) return console.log('mathTask save error', err);
+        res.send({ status: 200 });
     });
 });
 
 mathRouter.get("/", jwtMW, function (req, res) {
     if(!req.body) return res.sendStatus(400);
 
-    Task.find({}, function(err, tasks){
-
-        if(err) return console.log(err);
+    Math.find({}, function(err, tasks){
+        if(err) return console.log('get math tasks error', err);
         res.send(shuffle(tasks));
+    });
+});
+
+mathRouter.put("/", jwtMW, jsonParser, isTeacher, function (req, res) {
+    if(!req.body) return res.sendStatus(400);
+
+    const { question, answer, id } = req.body;
+
+    Math.findOne({ _id: id }, (err, mathTask) => {
+        if(err) return console.log('cant find math task', err);
+
+        mathTask.question = question;
+        mathTask.answer = answer;
+
+        mathTask.save(function(err){
+            if(err) return console.log('mathTask save error', err);
+            res.send({ status: 200 });
+        });
+    });
+});
+
+mathRouter.delete("/", jwtMW, jsonParser, isTeacher, function (req, res) {
+    if(!req.body) return res.sendStatus(400);
+
+    const { id } = req.body;
+
+    Math.findOneAndDelete({ _id: id }, function(err, task){
+        if(err) return console.log('delete math task error', err);
+        res.send(task);
     });
 });
 
