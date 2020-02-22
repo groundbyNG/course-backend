@@ -2,7 +2,7 @@ import express from 'express';
 import Math from '../../models/math';
 import isTeacher from '../../middleware/isTeacher';
 import shuffle from "../../helpers/shuffle";
-import { jwtMW } from "../../middleware/auth";
+import {getCredentials, jwtMW} from "../../middleware/auth";
 
 const mathRouter = express.Router();
 const jsonParser = express.json();
@@ -25,16 +25,22 @@ mathRouter.get("/", jwtMW, function (req, res) {
 
     Math.find({}, function(err, tasks){
         if(err) return console.log('get math tasks error', err);
-        res.send(shuffle(tasks));
+        const { role } = getCredentials(req.headers.authorization.split(' ')[1]);
+
+        if (role === 'student') {
+            res.send(shuffle(tasks));
+        } else {
+            res.send(tasks);
+        }
     });
 });
 
 mathRouter.put("/", jwtMW, jsonParser, isTeacher, function (req, res) {
     if(!req.body) return res.sendStatus(400);
 
-    const { question, answer, id } = req.body;
+    const { question, answer, _id } = req.body;
 
-    Math.findOne({ _id: id }, (err, mathTask) => {
+    Math.findOne({ _id }, (err, mathTask) => {
         if(err) return console.log('cant find math task', err);
 
         mathTask.question = question;

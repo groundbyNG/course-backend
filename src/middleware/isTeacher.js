@@ -5,13 +5,13 @@ const isTeacher = (req, res, next) => {
 
     if (role !== 'teacher') {
         return res.status(400).json({
-            sucсess: false,
+            success: false,
             token: null,
             err: `You're not a teacher`,
         });
     } else {
        next();
     }
-}
+};
 
 export default isTeacher;

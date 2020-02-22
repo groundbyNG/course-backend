@@ -9,15 +9,14 @@ export const jwtMW = exjwt({
 export const generateToken = (error, user, res) => {
     if (error || !user) {
       return res.status(401).json({
-        sucсess: false,
+        success: false,
         token: null,
         err: 'Username or password is incorrect'
     });
     } else {
       const token = jwt.sign({ email: user.email, role: user.role }, privateKey, { expiresIn: 129600 }); // Sigining the token
-        
       return res.send({
-        suсcess: true,
+        success: true,
         err: null,
         token,
         role: user.role,

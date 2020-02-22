@@ -7,12 +7,12 @@ const taskStatisticSchema = new Schema({
         type: String,
         required: true,
     },
-    task: {
-        type: String,
+    correct: {
+        type: Number,
         required: true,
     },
-    correct: {
-        type: Boolean,
+    attempts: {
+        type: Number,
         required: true,
     }
 });

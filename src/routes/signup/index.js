@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../../models/user';
+import TaskStatistic from "../../models/math-statistic";
 import { generateToken } from '../../middleware/auth';
 
 const signup = express.Router();
@@ -14,8 +15,14 @@ signup.post("/", jsonParser, function (req, res) {
 
     user.save(function(err){
         if(err) return console.log(err);
-
-        User.authenticate(email, password, (err, user) => generateToken(err, user, res));
+        const taskStat = new TaskStatistic({
+            email,
+            correct: 0,
+            attempts: 0,
+        });
+        taskStat.save((err) => {
+            User.authenticate(email, password, (err, user) => generateToken(err, user, res));
+        });
     });
 });
  
