@@ -56,9 +56,9 @@ mathRouter.put("/", jwtMW, jsonParser, isTeacher, function (req, res) {
 mathRouter.delete("/", jwtMW, jsonParser, isTeacher, function (req, res) {
     if(!req.body) return res.sendStatus(400);
 
-    const { id } = req.body;
+    const { _id } = req.body;
 
-    Math.findOneAndDelete({ _id: id }, function(err, task){
+    Math.findOneAndDelete({ _id }, function(err, task){
         if(err) return console.log('delete math task error', err);
         res.send(task);
     });

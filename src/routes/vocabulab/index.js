@@ -50,6 +50,7 @@ vocabulabRouter.put("/", jwtMW, jsonParser, isTeacher, function (req, res) {
 
   const { russian, english, description, category } = req.body;
 
+
   Vocabulab.find({ english }, (err, pairs) => {
     if(err) return console.log('cant find pairs', err);
     pairs.forEach(pair => {
@@ -82,10 +83,11 @@ vocabulabRouter.put("/check", jwtMW, jsonParser, (req, res) => {
   const { english, checked } = req.body;
   const { email, role } = getCredentials(req.headers.authorization.split(' ')[1]);
   if (role !== 'teacher') {
-    Vocabulab.find({ english, userId: email }, function(err, pair){
+    Vocabulab.findOne({ english, userId: email }, function(err, pair){
       if(err) return console.log('find pair error', err);
 
       pair.checked = checked;
+      pair.category = checked ? '3' : '1';
       pair.save(function(err){
         if(err) return console.log('pair save error', err);
       });

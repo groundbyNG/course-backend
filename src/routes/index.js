@@ -4,6 +4,7 @@ import { api } from '../constants';
 import mathRouter from './math';
 import mathStatRouter from "./math-statistic";
 import vocabulabRouter from './vocabulab';
+import vocabulabStatRouter from './vocabulab-statistic';
 import signinRouter from './signin';
 import signupRouter from './signup';
 import dashboardRouter from "./dashboard";
@@ -26,5 +27,6 @@ app.use(`${api}/dashboard`, dashboardRouter);
 app.use(`${api}/math`, mathRouter);
 app.use(`${api}/math-stat`, mathStatRouter);
 app.use(`${api}/vocabulab`, vocabulabRouter);
+app.use(`${api}/vocabulab-stat`, vocabulabStatRouter);
 
 export default app;
