@@ -7,6 +7,10 @@ const taskStatisticSchema = new Schema({
         type: String,
         required: true,
     },
+    username: {
+        type: String,
+        required: true,
+    },
     correct: {
         type: Number,
         required: true,

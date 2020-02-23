@@ -16,6 +16,7 @@ vocabulabStatRouter.get("/", jwtMW, jsonParser, function (req, res) {
         const words = await Vocabulab.find({ userId: user.email }).exec();
         return {
           email: user.email,
+          username: `${user.name} ${user.surname}`,
           learned: words.filter((word) => word.checked).length,
           notLearned: words.filter((word) => !word.checked).length,
         };

@@ -9,6 +9,8 @@ import signinRouter from './signin';
 import signupRouter from './signup';
 import dashboardRouter from "./dashboard";
 import userRouter from "./user";
+import libraryRouter from "./library";
+import libraryStatRouter from "./library-statistic";
 
 const app = express();
 
@@ -28,5 +30,7 @@ app.use(`${api}/math`, mathRouter);
 app.use(`${api}/math-stat`, mathStatRouter);
 app.use(`${api}/vocabulab`, vocabulabRouter);
 app.use(`${api}/vocabulab-stat`, vocabulabStatRouter);
+app.use(`${api}/library`, libraryRouter);
+app.use(`${api}/library-stat`, libraryStatRouter);
 
 export default app;

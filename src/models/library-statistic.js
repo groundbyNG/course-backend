@@ -2,19 +2,19 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const wordsStatisticSchema = new Schema({
+const libraryStatisticSchema = new Schema({
   email: {
     type: String,
     required: true,
   },
-  learned: {
+  username: {
+    type: String,
+    required: true,
+  },
+  time: {
     type: Number,
     required: true,
   },
-  notLearned: {
-    type: Number,
-    required: true,
-  }
 });
 
-export default mongoose.model('WordsStatistic', wordsStatisticSchema);
+export default mongoose.model('LibraryStatistic', libraryStatisticSchema);
